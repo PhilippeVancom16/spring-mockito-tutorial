@@ -1,0 +1,13 @@
+package be.afelio.java.springmockitotutorial;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringMockitoTutorialApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(SpringMockitoTutorialApplication.class, args);
+    }
+
+}
