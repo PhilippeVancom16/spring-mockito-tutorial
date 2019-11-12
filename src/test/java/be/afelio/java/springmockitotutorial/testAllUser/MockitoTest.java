@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment =  WebEnvironment.RANDOM_PORT)
-public class MockitoAnnotationTest {
+public class MockitoTest {
 
     @Autowired
     ApplicationRepository repository;
