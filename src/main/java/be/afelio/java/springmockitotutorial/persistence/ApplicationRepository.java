@@ -40,4 +40,11 @@ public class ApplicationRepository {
         }
         return listDto;
     }
+
+    public UserDto findOneUserDtoByFirstname(String firstname) {
+
+        UserEntity user = userRepository.findOneByFirstnameIgnoreCase(firstname);
+
+        return createUserDto(user);
+    }
 }

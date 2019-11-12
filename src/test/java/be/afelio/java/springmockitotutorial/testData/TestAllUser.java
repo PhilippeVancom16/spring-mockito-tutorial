@@ -1,4 +1,4 @@
-package be.afelio.java.springmockitotutorial.testAllUser;
+package be.afelio.java.springmockitotutorial.testData;
 
 import be.afelio.java.springmockitotutorial.api.dto.ResponseDto;
 import be.afelio.java.springmockitotutorial.api.dto.ResponseDtoStatus;
@@ -21,8 +21,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment =  WebEnvironment.RANDOM_PORT)
-public class MockitoTest {
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+public class TestAllUser {
 
     @Autowired
     ApplicationRepository repository;
@@ -33,13 +33,14 @@ public class MockitoTest {
     ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    public void testAllUser() throws Exception{
+    public void testAllUser() throws Exception {
         ResponseEntity<String> response = restTemplate.getForEntity("/user/all", String.class);
         assertEquals(200, response.getStatusCodeValue());
 
         String json = response.getBody();
 
-        TypeReference<ResponseDto<List<UserDto>>> type = new TypeReference<>() {};
+        TypeReference<ResponseDto<List<UserDto>>> type = new TypeReference<>() {
+        };
         assert json != null;
         ResponseDto<List<UserDto>> responseDto = mapper.readValue(json, type);
 
@@ -50,7 +51,7 @@ public class MockitoTest {
         assertEquals(expected, actual);
     }
 
-    private List<UserDto> createListUser() {
+    public List<UserDto> createListUser() {
         UserDto user1 = new UserDto("Louis", "Hella", "Xperthis");
         UserDto user2 = new UserDto("Philippe", "Vancom", "Xperthis");
         UserDto user3 = new UserDto("Romain", "Gerardy", "Afelio");
