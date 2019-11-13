@@ -37,8 +37,6 @@ public class TestFindOneUserByFirstname {
         UserDto userActual = actual.getBody().getPayload();
         assertNotNull("The payload is Null", userActual);
         assertEquals(userExpected.getFirstname(), userActual.getFirstname());
-        assertEquals(userExpected.getLastname(), userActual.getLastname());
-        assertEquals(userExpected.getCompanyName(), userActual.getCompanyName());
 
         String statusActual = actual.getBody().getStatus();
         assertEquals("SUCCESS", statusActual);

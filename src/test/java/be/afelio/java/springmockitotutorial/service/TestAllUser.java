@@ -47,7 +47,16 @@ public class TestAllUser {
 
         List<UserDto> expected = createListUser();
         List<UserDto> actual = applicationService.findAllUserDto();
-        assertEquals(expected, actual);
+
+        assertEquals(expected.size(), actual.size());
+
+        int i = 0;
+        for(UserDto user: actual){
+            assertEquals(user.getFirstname(),expected.get(i).getFirstname());
+            assertEquals(user.getLastname(),expected.get(i).getLastname());
+            assertEquals(user.getCompanyName(),expected.get(i).getCompanyName());
+            i++;
+        }
     }
 
     public List<UserDto> createListUser() {
