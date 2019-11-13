@@ -1,9 +1,8 @@
-package be.afelio.java.springmockitotutorial.testData;
+package be.afelio.java.springmockitotutorial.service;
 
 import be.afelio.java.springmockitotutorial.api.dto.ResponseDto;
 import be.afelio.java.springmockitotutorial.api.dto.ResponseDtoStatus;
 import be.afelio.java.springmockitotutorial.api.dto.UserDto;
-import be.afelio.java.springmockitotutorial.persistence.ApplicationRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -19,18 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class TestAllUser {
 
     @Autowired
-    ApplicationRepository repository;
+    ApplicationService applicationService;
 
     @Autowired
     TestRestTemplate restTemplate;
 
     ObjectMapper mapper = new ObjectMapper();
+
+
 
     @Test
     public void testAllUser() throws Exception {
@@ -38,31 +40,23 @@ public class TestAllUser {
         assertEquals(200, response.getStatusCodeValue());
 
         String json = response.getBody();
-
-        TypeReference<ResponseDto<List<UserDto>>> type = new TypeReference<>() {
-        };
-        assert json != null;
+        TypeReference<ResponseDto<List<UserDto>>> type = new TypeReference<>() {};
+        assertNotNull(json);
         ResponseDto<List<UserDto>> responseDto = mapper.readValue(json, type);
-
         assertEquals(ResponseDtoStatus.SUCCESS.name(), responseDto.getStatus());
 
         List<UserDto> expected = createListUser();
-        List<UserDto> actual = repository.findAllUserDto();
+        List<UserDto> actual = applicationService.findAllUserDto();
         assertEquals(expected, actual);
     }
 
     public List<UserDto> createListUser() {
-        UserDto user1 = new UserDto("Louis", "Hella", "Xperthis");
-        UserDto user2 = new UserDto("Philippe", "Vancom", "Xperthis");
-        UserDto user3 = new UserDto("Romain", "Gerardy", "Afelio");
-        UserDto user4 = new UserDto("Jean", "VanRickstal", "NRB");
-        UserDto user5 = new UserDto("Benoit", "Dormaels", "Afelio");
         List<UserDto> listUser = new ArrayList<>();
-        listUser.add(user1);
-        listUser.add(user2);
-        listUser.add(user3);
-        listUser.add(user4);
-        listUser.add(user5);
+        listUser.add(new UserDto("Louis", "Hella", "Xperthis"));
+        listUser.add(new UserDto("Philippe", "Vancom", "Xperthis"));
+        listUser.add(new UserDto("Romain", "Gerardy", "Afelio"));
+        listUser.add(new UserDto("Jean", "VanRickstal", "NRB"));
+        listUser.add(new UserDto("Benoit", "Dormaels", "Afelio"));
         return listUser;
     }
 }

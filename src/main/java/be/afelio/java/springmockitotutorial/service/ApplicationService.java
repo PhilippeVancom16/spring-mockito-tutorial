@@ -1,42 +1,33 @@
-package be.afelio.java.springmockitotutorial.persistence;
+package be.afelio.java.springmockitotutorial.service;
 
 import be.afelio.java.springmockitotutorial.api.dto.UserDto;
 import be.afelio.java.springmockitotutorial.persistence.entity.UserEntity;
 import be.afelio.java.springmockitotutorial.persistence.repository.UserRepository;
-import org.springframework.stereotype.Component;
+import be.afelio.java.springmockitotutorial.service.mapper.UserMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class ApplicationRepository {
+@Service
+public class ApplicationService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public ApplicationRepository(UserRepository userRepository) {   // = @Autowired ApplicationRepository repository
+    public ApplicationService(UserRepository userRepository, UserMapper userMapper) {   // = @Autowired ApplicationRepository repository
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
 
-
-    private UserDto createUserDto(UserEntity entity) {
-        UserDto user = null;
-        if (entity != null) {
-            user = new UserDto(
-                    entity.getFirstname(),
-                    entity.getLastname(),
-                    entity.getCompany().getName()
-            );
-        }
-        return user;
-    }
 
     public List<UserDto> findAllUserDto() {
         List<UserEntity> userList = userRepository.findAll();
         List<UserDto> listDto = new ArrayList<>();
 
         for (UserEntity user : userList) {
-            listDto.add(createUserDto(user));
+            listDto.add(userMapper.mapUserDto(user));
         }
         return listDto;
     }
@@ -45,6 +36,6 @@ public class ApplicationRepository {
 
         UserEntity user = userRepository.findOneByFirstnameIgnoreCase(firstname);
 
-        return createUserDto(user);
+        return userMapper.mapUserDto(user);
     }
 }

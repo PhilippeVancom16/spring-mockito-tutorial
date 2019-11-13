@@ -3,7 +3,7 @@ package be.afelio.java.springmockitotutorial.controller;
 import be.afelio.java.springmockitotutorial.api.dto.ResponseDto;
 import be.afelio.java.springmockitotutorial.api.dto.ResponseDtoStatus;
 import be.afelio.java.springmockitotutorial.api.dto.UserDto;
-import be.afelio.java.springmockitotutorial.persistence.ApplicationRepository;
+import be.afelio.java.springmockitotutorial.service.ApplicationService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,10 +17,10 @@ import java.util.List;
 @RequestMapping(value = "user")
 public class UserController {
 
-    private final ApplicationRepository repository;
+    private final ApplicationService applicationService;
 
-    public UserController(ApplicationRepository repository) {   // = @Autowired UserRepository userRepository
-        this.repository = repository;
+    public UserController(ApplicationService applicationService) {   // = @Autowired UserRepository userRepository
+        this.applicationService = applicationService;
     }
 
 
@@ -31,7 +31,7 @@ public class UserController {
         ResponseDto<List<UserDto>> dto = null;
 
         try {
-            List<UserDto> user = repository.findAllUserDto();
+            List<UserDto> user = applicationService.findAllUserDto();
 
             if (user == null) {
                 dto = new ResponseDto<>(ResponseDtoStatus.FAILURE, "No user found");
@@ -53,12 +53,12 @@ public class UserController {
         ResponseDto<UserDto> dto = null;
 
         try {
-            UserDto user = repository.findOneUserDtoByFirstname(firstname);
+            UserDto user = applicationService.findOneUserDtoByFirstname(firstname);
 
             if (user == null) {
                 dto = new ResponseDto<>(ResponseDtoStatus.FAILURE, "No user found");
             } else {
-                dto = new ResponseDto<>(ResponseDtoStatus.SUCCESS, " User found");
+                dto = new ResponseDto<>(ResponseDtoStatus.SUCCESS, "User found");
                 dto.setPayload(user);
             }
 
