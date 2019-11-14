@@ -40,12 +40,6 @@ public class TestOneUserByFirstname {
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class, firstname);
         assertEquals(200, response.getStatusCodeValue());
 
-        String json = response.getBody();
-        TypeReference<ResponseDto<List<UserDto>>> type = new TypeReference<>() {};
-        assertNotNull(json);
-        ResponseDto<List<UserDto>> responseDto = mapper.readValue(json, type);
-        assertEquals(ResponseDtoStatus.SUCCESS.name(), responseDto.getStatus());
-
         UserDto userExpected = new UserDto();
         userExpected.setFirstname("Philippe");
         userExpected.setLastname("Vancom");

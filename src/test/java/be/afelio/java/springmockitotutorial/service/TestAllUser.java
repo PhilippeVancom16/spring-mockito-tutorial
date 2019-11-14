@@ -15,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -46,15 +48,17 @@ public class TestAllUser {
         assertEquals(ResponseDtoStatus.SUCCESS.name(), responseDto.getStatus());
 
         List<UserDto> expected = createListUser();
-        List<UserDto> actual = applicationService.findAllUserDto();
+        List<UserDto> actual = applicationService.findAllUserDto().stream()
+                .sorted(Comparator.comparing(UserDto::getFirstname))
+                .collect(Collectors.toList());
 
         assertEquals(expected.size(), actual.size());
 
         int i = 0;
         for(UserDto user: actual){
-            assertEquals(user.getFirstname(),expected.get(i).getFirstname());
-            assertEquals(user.getLastname(),expected.get(i).getLastname());
-            assertEquals(user.getCompanyName(),expected.get(i).getCompanyName());
+            assertEquals(expected.get(i).getFirstname(), user.getFirstname());
+            assertEquals(expected.get(i).getLastname(), user.getLastname());
+            assertEquals(expected.get(i).getCompanyName(), user.getCompanyName());
             i++;
         }
     }
@@ -66,6 +70,9 @@ public class TestAllUser {
         listUser.add(new UserDto("Romain", "Gerardy", "Afelio"));
         listUser.add(new UserDto("Jean", "VanRickstal", "NRB"));
         listUser.add(new UserDto("Benoit", "Dormaels", "Afelio"));
-        return listUser;
+
+        return listUser.stream()
+                .sorted(Comparator.comparing(UserDto::getFirstname))
+                .collect(Collectors.toList());
     }
 }
