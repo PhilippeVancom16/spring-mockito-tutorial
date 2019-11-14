@@ -1,10 +1,6 @@
 package be.afelio.java.springmockitotutorial.service;
 
-import be.afelio.java.springmockitotutorial.api.dto.ResponseDto;
-import be.afelio.java.springmockitotutorial.api.dto.ResponseDtoStatus;
 import be.afelio.java.springmockitotutorial.api.dto.UserDto;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +9,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,12 +21,10 @@ public class TestOneUserByFirstname {
     @Autowired
     TestRestTemplate restTemplate;
 
-    ObjectMapper mapper = new ObjectMapper();
-
 
 
     @Test
-    public void testFindOneUserByFirstname() throws Exception {
+    public void testFindOneUserByFirstname() {
 
         String firstname = "{\"Philippe\"}";
         String url = "http://localhost:8080/mockito/user/firstname/{firstname}";
